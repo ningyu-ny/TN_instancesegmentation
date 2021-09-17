@@ -43,8 +43,8 @@ def show_single(image, target, position):
     result = target
     if result and "masks" in result:
         # masks = result["masks"].unsqueeze(1)
-        if  'scores' in result:
-            idx = result['scores'] > 0.75
+        if 'scores' in result:
+            idx = result['scores'] > 0.80
             num = idx.count_nonzero().item()
         else:
             num=result['masks'].shape[0]

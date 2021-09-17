@@ -13,7 +13,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from torchvision.transforms.functional import convert_image_dtype
 import torchvision.transforms.functional as F
-
+from torchvision.utils import draw_segmentation_masks
 
 plt.rcParams["savefig.bbox"] = 'tight'
 
@@ -29,15 +29,15 @@ def show(imgs):
 
 pth_path="./save_weights/Maskrcnn-model.pth"#模型保存路径
 
-dataset = ThyroidNoduleDataset('train', get_transform(train=True))
+# dataset = ThyroidNoduleDataset('train', get_transform(train=True))
 dataset_test = ThyroidNoduleDataset('test', get_transform(train=False))
 torch.manual_seed(1)
-indices = torch.randperm(len(dataset)).tolist()
+# indices = torch.randperm(len(dataset)).tolist()
 # dataset = torch.utils.data.Subset(dataset, indices[:-100])
 # dataset_test = torch.utils.data.Subset(dataset_test, indices[-100:])
 
 data_loader = torch.utils.data.DataLoader(
-    dataset_test, batch_size=1, shuffle=True, num_workers=0,
+    dataset_test, batch_size=3, shuffle=True, num_workers=0,
     collate_fn=utils.collate_fn)
 
 # data_loader_test = torch.utils.data.DataLoader(
@@ -67,7 +67,7 @@ if ckpts:
 
 model.eval()
 iters = 20
-for i, (image, target) in enumerate(dataset):
+for i, (image, target) in enumerate(dataset_test):
     image = image.to(device)
     target = {k: v.to(device) for k, v in target.items()}
 
@@ -75,42 +75,26 @@ for i, (image, target) in enumerate(dataset):
         image.unsqueeze_(0)
         result = model(image)
         result = result[0]
-        image= convert_image_dtype(image, dtype=torch.uint8).cpu()
-        score_threshold = .8
-        colors = ["red", "yellow","blue"]
-        image_with_boxes = [
-            draw_bounding_boxes(image.squeeze(0), boxes=result['boxes'][result['scores'] > score_threshold],colors=colors, width=2)
-
-        ]  # image (Tensor): Tensor of shape (C x H x W) and dtype uint8.
-        # show(image_with_boxes)
-        image_with_boxes=image_with_boxes[0]
-        sem_classes = [
-            '__background__', 'Nodule'
-        ]
-        sem_class_to_idx = {cls: idx for (idx, cls) in enumerate(sem_classes)}
-        class_dim = 1
-
-        normalized_masks = torch.nn.functional.softmax(result['masks'], dim=1)
-        dog_and_boat_masks = [
-            normalized_masks[img_idx, sem_class_to_idx[cls]]
-            for img_idx in range(result['masks'].shape[1])
-            for cls in (sem_classes)
-        ]
-
-
-        sem_classes = [
-            '__background__', 'Nodule'
-        ]
-        sem_class_to_idx = {cls: idx for (idx, cls) in enumerate(sem_classes)}
-        colors = ["blue", "yellow","red"]
-        draw_bounding_boxes(images[0],result["boxes"],sem_classes,colors)
-
-
-
+        # ====================method 1========================================================================
+        # result_masks = result['masks']
+        # image= convert_image_dtype(image, dtype=torch.uint8).cpu()
+        # score_threshold = .8
+        # colors = ["red", "yellow","blue"]
+        # image_with_boxes = [
+        #     draw_bounding_boxes(image.squeeze(0), boxes=result['boxes'][result['scores'] > score_threshold],colors=colors, width=2)
+        #
+        # ]  # image (Tensor): Tensor of shape (C x H x W) and dtype uint8.
+        # inst_classes = [
+        #     '__background__', 'nodule'
+        # ]
+        # inst_class_to_idx = {cls: idx for (idx, cls) in enumerate(inst_classes)}
+        # proba_threshold = 0.8
+        # result_bool_masks = result['masks'] > proba_threshold
+        # result_bool_masks = result_bool_masks.squeeze(1)
+        # =========================method 2===================================================================
         plt.figure(figsize=(10, 8))
         visualize.show(image, result,position=1)
         visualize.show(image,target,position=2)
-        # plt.figure(figsize=(10, 8))
 
-    if i >= iters - 1:
-        break
+        if i >= iters - 1:
+            break
