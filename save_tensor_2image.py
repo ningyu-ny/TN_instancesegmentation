@@ -41,7 +41,7 @@ def save_image_tensor2cv2(input_tensor: torch.Tensor, filename):
     # input_tensor = unnormalize(input_tensor)
     # 去掉批次维度
     input_tensor = input_tensor.squeeze()
-    # 从[0,1]转化为[0,255]，再从CHW转为HWC，最后转为cv2
+    # 从[0,data]转化为[0,255]，再从CHW转为HWC，最后转为cv2
     input_tensor = input_tensor.mul_(255).add_(0.5).clamp_(
         0, 255).permute(
         1, 2, 0).type(
@@ -66,7 +66,7 @@ def save_image_tensor2pillow(input_tensor: torch.Tensor, filename):
     # input_tensor = unnormalize(input_tensor)
     # 去掉批次维度
     input_tensor = input_tensor.squeeze()
-    # 从[0,1]转化为[0,255]，再从CHW转为HWC，最后转为numpy
+    # 从[0,data]转化为[0,255]，再从CHW转为HWC，最后转为numpy
     input_tensor = input_tensor.mul_(255).add_(0.5).clamp_(
         0, 255).permute(
         1, 2, 0).type(

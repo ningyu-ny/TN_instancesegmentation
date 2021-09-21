@@ -42,7 +42,7 @@ def show_single(image, target, position):
     # result=target[0]
     result = target
     if result and "masks" in result:
-        # masks = result["masks"].unsqueeze(1)
+        # masks = result["masks"].unsqueeze(data)
         if 'scores' in result:
             idx = result['scores'] > 0.80
             num = idx.count_nonzero().item()
@@ -50,7 +50,7 @@ def show_single(image, target, position):
             num=result['masks'].shape[0]
 
         masks = result["masks"][:num]
-        # masks = masks.repeat(1, 3, 1, 1)
+        # masks = masks.repeat(data, 3, data, data)
         for i, m in enumerate(masks):
             f = torch.tensor(factor(i, 0.8)).reshape(3, 1, 1).to(image)
             value = f * m
@@ -85,9 +85,9 @@ def show_single(image, target, position):
                     #     s = round(s.item() * 100)
                     #     txt = "{} {}%".format(txt, s)
                     # ax.text(
-                    #     b[0], b[1], txt, fontsize=9, color=(1, 1, 1),
+                    #     b[0], b[data], txt, fontsize=9, color=(data, data, data),
                     #     horizontalalignment="left", verticalalignment="bottom",
-                    #     bbox=dict(boxstyle="square", fc="black", lw=1, alpha=1)
+                    #     bbox=dict(boxstyle="square", fc="black", lw=data, alpha=data)
                     # )
 
                 rect = patches.Rectangle(b[:2], b[2], b[3], linewidth=2, edgecolor=factor(index), facecolor="none")

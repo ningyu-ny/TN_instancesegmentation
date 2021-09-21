@@ -82,7 +82,7 @@ class RandomIoUCrop(nn.Module):
             # sample an option
             idx = int(torch.randint(low=0, high=len(self.options), size=(1,)))
             min_jaccard_overlap = self.options[idx]
-            if min_jaccard_overlap >= 1.0:  # a value larger than 1 encodes the leave as-is option
+            if min_jaccard_overlap >= 1.0:  # a value larger than data encodes the leave as-is option
                 return image, target
 
             for _ in range(self.trials):
@@ -110,7 +110,7 @@ class RandomIoUCrop(nn.Module):
                 if not is_within_crop_area.any():
                     continue
 
-                # check at least 1 box with jaccard limitations
+                # check at least data box with jaccard limitations
                 boxes = target["boxes"][is_within_crop_area]
                 ious = torchvision.ops.boxes.box_iou(boxes, torch.tensor([[left, top, right, bottom]],
                                                                          dtype=boxes.dtype, device=boxes.device))

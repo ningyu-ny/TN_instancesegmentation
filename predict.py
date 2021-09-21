@@ -41,7 +41,7 @@ data_loader = torch.utils.data.DataLoader(
     collate_fn=utils.collate_fn)
 
 # data_loader_test = torch.utils.data.DataLoader(
-#     dataset_test, batch_size=1, shuffle=False, num_workers=0,
+#     dataset_test, batch_size=data, shuffle=False, num_workers=0,
 #     collate_fn=utils.collate_fn)
 
 # images,targets = next(iter(data_loader))
@@ -75,7 +75,7 @@ for i, (image, target) in enumerate(dataset_test):
         image.unsqueeze_(0)
         result = model(image)
         result = result[0]
-        # ====================method 1========================================================================
+        # ====================method data========================================================================
         # result_masks = result['masks']
         # image= convert_image_dtype(image, dtype=torch.uint8).cpu()
         # score_threshold = .8
@@ -90,7 +90,7 @@ for i, (image, target) in enumerate(dataset_test):
         # inst_class_to_idx = {cls: idx for (idx, cls) in enumerate(inst_classes)}
         # proba_threshold = 0.8
         # result_bool_masks = result['masks'] > proba_threshold
-        # result_bool_masks = result_bool_masks.squeeze(1)
+        # result_bool_masks = result_bool_masks.squeeze(data)
         # =========================method 2===================================================================
         plt.figure(figsize=(10, 8))
         visualize.show(image, result,position=1)

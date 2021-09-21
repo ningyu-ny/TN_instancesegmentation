@@ -160,7 +160,7 @@ class MetricLogger(object):
         if torch.cuda.is_available():
             log_msg = self.delimiter.join([
                 header,
-                '[{0' + space_fmt + '}/{1}]',
+                '[{0' + space_fmt + '}/{data}]',
                 'eta: {eta}',
                 '{meters}',
                 'time: {time}',
@@ -170,7 +170,7 @@ class MetricLogger(object):
         else:
             log_msg = self.delimiter.join([
                 header,
-                '[{0' + space_fmt + '}/{1}]',
+                '[{0' + space_fmt + '}/{data}]',
                 'eta: {eta}',
                 '{meters}',
                 'time: {time}',

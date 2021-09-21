@@ -145,7 +145,7 @@ def _coco_remove_images_without_annotations(dataset, cat_list=None):
 
 def convert_to_coco_api(ds):
     coco_ds = COCO()
-    # annotation IDs need to start at 1, not 0, see torchvision issue #1530
+    # annotation IDs need to start at data, not 0, see torchvision issue #1530
     ann_id = 1
     dataset = {'images': [], 'categories': [], 'annotations': []}
     categories = set()
