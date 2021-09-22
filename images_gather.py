@@ -28,7 +28,7 @@ for filename in fl:
 
 #保存masks
 for i,filename in enumerate(filelist_useful):
-    image = cv.imread(filename)
+    image = cv.imread(filename,cv.IMREAD_GRAYSCALE)
     # savepath=filename.replace("train", "test_new")
     savepath=r'F:\Github_data\TN_instancesegmentation\test_new\masks'
     # dir_name='\\'.join(savepath.split('\\')[:-1])
@@ -41,7 +41,7 @@ for i,filename in enumerate(filelist_useful):
 #保存images
 for i, filename in enumerate(filelist_useful):
     filename=filename.replace('masks', 'images')
-    image = cv.imread(filename)
+    image = cv.imread(filename,cv.IMREAD_GRAYSCALE)
     savepath = r'F:\Github_data\TN_instancesegmentation\test_new\images'
     if not os.path.exists(savepath):
         os.mkdir(savepath)  # 只能建立一层！！！
