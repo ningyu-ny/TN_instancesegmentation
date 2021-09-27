@@ -30,7 +30,7 @@ def show(imgs):
 pth_path="./save_weights/Maskrcnn-model.pth"#模型保存路径
 
 # dataset = ThyroidNoduleDataset('train', get_transform(train=True))
-dataset_test = ThyroidNoduleDataset('test', get_transform(train=False))
+dataset_test = ThyroidNoduleDataset('test_new', get_transform(train=False))
 torch.manual_seed(1)
 # indices = torch.randperm(len(dataset)).tolist()
 # dataset = torch.utils.data.Subset(dataset, indices[:-100])

@@ -37,6 +37,7 @@ def show_single(image, target, position):
     Arguments:
         image (Tensor[3, H, W])
         target (Dict[Tensor])
+        :param position: 图片的位置（1或2）
     """
     image = image.clone()
     # result=target[0]

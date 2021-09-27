@@ -67,10 +67,7 @@ def save_image_tensor2pillow(input_tensor: torch.Tensor, filename):
     # 去掉批次维度
     input_tensor = input_tensor.squeeze()
     # 从[0,data]转化为[0,255]，再从CHW转为HWC，最后转为numpy
-    input_tensor = input_tensor.mul_(255).add_(0.5).clamp_(
-        0, 255).permute(
-        1, 2, 0).type(
-            torch.uint8).numpy()
+    input_tensor = input_tensor.mul_(255).add_(0.5).clamp_(0, 255).permute(1, 2, 0).type(torch.uint8).numpy()
     # 转成pillow
     im = Image.fromarray(input_tensor)
     im.save(filename)

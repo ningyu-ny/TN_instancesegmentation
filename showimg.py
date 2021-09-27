@@ -92,8 +92,8 @@ def drawRectangle(image_path,mask_path):
 
 
 if __name__ == '__main__':
-    img = Image.open(os.path.join('train_data', 'images.jpg'))
-    mask = Image.open(os.path.join('./train_data', 'masks', '0000.jpg'))
+    img = Image.open(os.path.join('test_new', 'mask_processed','00000.jpg'))
+    mask = Image.open(os.path.join('test_new', 'mask_processed','00000.jpg'))
 
     image_path=os.path.join('train_data', 'images.jpg')
     image_path='train_data/images/0000.jpg'
